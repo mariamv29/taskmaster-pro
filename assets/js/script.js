@@ -20,7 +20,7 @@ var createTask = function (taskText, taskDate, taskList) {
 
 var loadTasks = function () {
   tasks = JSON.parse(localStorage.getItem("tasks"));
-
+  console.log(tasks);
   // if nothing in localStorage, create a new object to track all task status arrays
   if (!tasks) {
     tasks = {
@@ -33,6 +33,7 @@ var loadTasks = function () {
 
   // loop over object properties
   $.each(tasks, function (list, arr) {
+    console.log(tasks);
     // then loop over sub-array
     arr.forEach(function (task) {
       createTask(task.text, task.date, list);
@@ -43,16 +44,12 @@ var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-var auditTask = function (taskEl) {
+var auditTask = function(taskEl) {
   // get date from task element
   var date = $(taskEl).find("span").text().trim();
 
-  console.log(date);
-
   // convert to moment object at 5:00pm
   var time = moment(date, "L").set("hour", 17);
-
-  console.log(time);
 
   // remove any old classes from element
   $(taskEl).removeClass("list-group-item-warning list-group-item-danger");
@@ -60,8 +57,6 @@ var auditTask = function (taskEl) {
   // apply new class if task is near/over due date
   if (moment().isAfter(time)) {
     $(taskEl).addClass("list-group-item-danger");
-  } else if (Math.abs(moment().diff(time, "days")) <= 2) {
-    $(taskEl).addClass("list-group-item-warning");
   }
 };
 
@@ -150,7 +145,7 @@ $("#task-form-modal").on("shown.bs.modal", function () {
 });
 
 // save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function () {
+$("#task-form-modal .btn-save").click(function () {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
@@ -232,7 +227,7 @@ $(".list-group").on("click", "span", function () {
 // value of due date was changed
 $(".list-group").on("change", "input[type='text']", function () {
   var date = $(this).val();
-
+  console.log(date);
   // get status type and position in the list
   var status = $(this).closest(".list-group").attr("id").replace("list-", "");
   var index = $(this).closest(".list-group-item").index();
