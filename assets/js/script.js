@@ -22,7 +22,7 @@ var loadTasks = function () {
   tasks = JSON.parse(localStorage.getItem("tasks"));
   console.log(tasks);
   // if nothing in localStorage, create a new object to track all task status arrays
-  if (!tasks) {
+  if (!tasks) { 
     tasks = {
       toDo: [],
       inProgress: [],
@@ -40,9 +40,16 @@ var loadTasks = function () {
     });
   });
 };
+
+
+
+
 var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
+
+
+
 
 var auditTask = function(taskEl) {
   // get date from task element
